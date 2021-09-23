@@ -23,6 +23,11 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-//**  Rutas Vacantes */ 
+//**  Rutas Vacantes **/ 
 Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
 Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create');
+Route::post('/vacantes', 'VacanteController@store')->name('vacantes.store');
+
+// Subir imaganes
+Route::post('/vacantes/imagen' , 'VacanteController@imagen')->name('vacantes.imagen');
+Route::post('/vacantes/borrarimagen', 'VacanteController@borrarimagen')->name('vacantes.borrarimagen');
