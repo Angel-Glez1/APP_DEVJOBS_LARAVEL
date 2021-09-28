@@ -25,6 +25,15 @@
 </head>
 
 <body class="bg-gray-200 min-h-screen leading-none">
+
+    {{-- Mostar el mensaje que se envie en una redireccion --}}
+    @if (session('estado'))
+        <div class="bg-green-500 p-8 text-center text-white font-bold uppercase">
+            {{ session('estado') }}
+        </div>
+    @endif
+
+
     <div id="app">
         <nav class="bg-gray-800 shadow-md py-2">
             <div class="container mx-auto md:px-0 ">

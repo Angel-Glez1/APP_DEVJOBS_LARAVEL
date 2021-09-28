@@ -13,12 +13,6 @@ use Illuminate\Support\Facades\File;
 class VacanteController extends Controller
 {
 
-    // Verificar que el usuario este logueado y verificado por el emial
-    public function __construct() {
-        $this->middleware(['auth','verified']);
-      
-    }
-
 
 
     /**
@@ -96,7 +90,8 @@ class VacanteController extends Controller
      */
     public function show(Vacante $vacante)
     {
-        //
+        return view('vacantes.show')
+        ->with('vacante', $vacante);
     }
 
     /**
