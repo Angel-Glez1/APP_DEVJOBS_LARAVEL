@@ -125,7 +125,9 @@ class VacanteController extends Controller
      */
     public function destroy(Vacante $vacante)
     {
-        //
+        $vacante->delete();
+
+        return response()->json([ 'mensaje' => 'Se elimino la vacante'. $vacante->titulo ]);
     }
 
     // Otras funciones
@@ -140,6 +142,7 @@ class VacanteController extends Controller
         return response()->json(['correcto' => $nombreImagen]);
     }
 
+    // Borrar la imagen previa en dropzone 
     public function borrarimagen(Request $request)
     {
         if($request->ajax()){
@@ -153,4 +156,17 @@ class VacanteController extends Controller
             return response('Imagen Eliminada', 200);
         }
     }
+
+
+    // Cambia el estado de la vacante
+    public function estado(Request $request, Vacante $vacante)
+    {
+        // leer nuevo estado
+        $vacante->activa = $request->estado;
+        $vacante->save();
+
+        return response()->json(['respuesta' => 'correcto']);
+    }
+
+
 }

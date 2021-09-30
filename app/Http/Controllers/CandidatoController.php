@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Candidato;
 use App\Vacante;
+use App\Candidato;
 use Illuminate\Http\Request;
+use App\Notifications\NuevoCandidato;
 
 class CandidatoController extends Controller
 {
@@ -13,9 +14,17 @@ class CandidatoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+        // Obtener el id de la vancate
+        $vacante_id = $request->route('id');
+
+        // Obtener los candidatos por el id de la vacante usando un metodo para saber si exite o no 
+        $vacante = Vacante::findOrFail($vacante_id);
+
+
+        return view('candidatos.index', compact('vacante'));
+
     }
 
     /**
@@ -43,7 +52,7 @@ class CandidatoController extends Controller
             'vacante_id' => 'required'
         ]);
 
-        
+
         if($request->file('cv')){
 
             // Obtener el tmp_name (Ubicacion temporal)
@@ -54,7 +63,7 @@ class CandidatoController extends Controller
 
             // Crear la ubicacion donde se va a guardar
             $path_save = public_path('/storage/cv');
-            
+
             // subir el pdf(cv) al servidor
             $pdfCanditado->move($path_save, $nameFile);
 
@@ -62,14 +71,18 @@ class CandidatoController extends Controller
         }
 
 
-        // Save 
+        // Guardamos la vacante 
         $vacante = Vacante::find($data['vacante_id']);
         $vacante->candidatos()->create([
             'nombre' => $data['nombre'],
             'email' => $data['email'],
             'cv' => $nameFile
         ]);
-        
+
+        // Notificar al dueño de la vacante que un usuario se postulo a su 
+        $reclutador  = $vacante->user;
+        $reclutador->notify(new NuevoCandidato( $vacante->titulo, $vacante->id ) );
+
 
         // Redireccionar a la pag... anterior con mensaje
         return back()->with('estado', 'Tus datos se enviaron Correctamente! Suerte');
