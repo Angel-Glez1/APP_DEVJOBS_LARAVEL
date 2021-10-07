@@ -18,7 +18,7 @@ class CreateCandidatosTable extends Migration
             $table->string('nombre');
             $table->string('email');
             $table->string('cv');
-            $table->foreignId('vacante_id')->references('id')->on('vacantes');
+            $table->foreignId('vacante_id')->references('id')->on('vacantes')->onDelete('cascade');
             
 
             $table->timestamps();

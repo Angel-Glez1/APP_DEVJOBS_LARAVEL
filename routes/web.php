@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 
 /**
@@ -30,25 +28,35 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
     Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
     Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create');
     Route::post('/vacantes', 'VacanteController@store')->name('vacantes.store');
-    Route::delete('/vacantes/{vacante}', 'VacanteController@destroy')->name('vacantes.destroy');
-
+    Route::delete('/vacantes/delete/{vacante}', 'VacanteController@destroy')->name('vacantes.destroy');
+    Route::get('/vacantes/{vacante}/edit', 'VacanteController@edit')->name('vacante.edit');
+    Route::put('/vacantes/{vacante}', 'VacanteController@update')->name('vacante.update');
     // Subir imaganes
     Route::post('/vacantes/imagen', 'VacanteController@imagen')->name('vacantes.imagen');
     Route::post('/vacantes/borrarimagen', 'VacanteController@borrarimagen')->name('vacantes.borrarimagen');
-
+    
     // Cambiar el estado de la vacante
     Route::post('/vacantes/{vacante}', 'VacanteController@estado')->name('vacantes.estado');
-
+    
     // Notificaciones
     Route::get('/notificaciones', 'NotificacionesController')->name('notificaciones'); 
 
 });
 
+Route::get('/', 'InicioController')->name('inicio');
+
+Route::get('/categoria/{categoria}', 'CategoriaController@show')->name('categoria.show');
+
+
 Route::get('/candidatos/{id}', 'CandidatoController@index')->name('candidato.index');
-Route::post('/candidatos/store', 'CandidatoController@store' )->name('candidatos.store');
+Route::post('/candidatos/store', 'CandidatoController@store')->name('candidatos.store');
+
 
 // Muestra los trabajos desponibles sin autentificación
-Route::get('/vacantes/{vacante}', 'VacanteController@show' )->name('vacantes.show');
+Route::post('/buscar',  'VacanteController@search')->name('vacantes.search');
+Route::get('/buscar/resultado', 'VacanteController@resultado')->name('vacantes.resultado');
+
+Route::get('/vacantes/{vacante}', 'VacanteController@show')->name('vacantes.show');
 
 
 

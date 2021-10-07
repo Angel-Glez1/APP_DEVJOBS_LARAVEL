@@ -22,6 +22,8 @@ class CandidatoController extends Controller
         // Obtener los candidatos por el id de la vacante usando un metodo para saber si exite o no 
         $vacante = Vacante::findOrFail($vacante_id);
 
+        $this->authorize('view', $vacante );
+        
 
         return view('candidatos.index', compact('vacante'));
 

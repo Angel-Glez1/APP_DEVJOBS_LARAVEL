@@ -1933,10 +1933,15 @@ __webpack_require__.r(__webpack_exports__);
         if (result.isConfirmed) {
           var params = {
             id: _this.vacanteId,
-            methods: 'DELETE'
+            _method: 'delete'
           };
-          axios.post("/vacantes/".concat(_this.vacanteId), params).then(function (res) {
-            _this.$swal.fire("Vacante eliminada", res.mensaje, "success");
+          axios.post("/vacantes/delete/".concat(_this.vacanteId), params).then(function (res) {
+            console.log(res);
+
+            _this.$swal.fire("Vacante eliminada", res.data.mensaje, "success"); // Eliminar del dom
+
+
+            _this.$el.parentNode.parentNode.parentNode.removeChild(_this.$el.parentNode.parentNode);
           })["catch"](function (err) {
             return console.log(err);
           });
@@ -51598,8 +51603,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\devjobs\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\devjobs\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\laragon\www\devjobs\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\laragon\www\devjobs\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

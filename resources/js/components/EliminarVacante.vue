@@ -24,10 +24,14 @@ export default {
 
           if (result.isConfirmed) {
 
-            const params = { id: this.vacanteId, methods: 'DELETE' }
+            const params = { 
+                id: this.vacanteId, 
+                _method: 'delete' 
+            }
 
-            axios.post(`/vacantes/${this.vacanteId}`, params)
+            axios.post(`/vacantes/delete/${this.vacanteId}`, params)
             .then(res => {
+                console.log(res);
                 this.$swal.fire(
                 "Vacante eliminada",
                 res.data.mensaje,
@@ -39,9 +43,10 @@ export default {
             })
             .catch(err => console.log(err));
 
-            
+
           }
-        });
+        })
+        
     },
   },
 };
